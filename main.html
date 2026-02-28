@@ -99,3 +99,104 @@
     .hpl-hero p { font-size: 1.05rem; color: var(--hpl-muted); max-width: 520px; margin: 0 auto 1.25rem; }
     .hpl-section { padding: 2.5rem 0; border-bottom: 1px solid var(--hpl-border); }
     .hpl-section-title {
+      font-family: var(--hpl-display);
+      font-size: 1.5rem;
+      color: var(--hpl-teal);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 2px solid var(--hpl-teal-light);
+      display: inline-block;
+    }
+    .hpl-card {
+      background: var(--hpl-surface);
+      border: 1px solid var(--hpl-border);
+      border-radius: var(--hpl-radius);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      box-shadow: var(--hpl-shadow);
+    }
+    .hpl-card h3 { font-size: 1.05rem; color: var(--hpl-slate); margin-bottom: 0.5rem; }
+    .hpl-card p { color: var(--hpl-muted); font-size: 0.9rem; }
+    .hpl-input {
+      width: 100%;
+      font-family: var(--hpl-font);
+      font-size: 0.95rem;
+      padding: 0.55rem 0.85rem;
+      border: 1px solid var(--hpl-border);
+      border-radius: 10px;
+      background: var(--hpl-bg);
+      color: var(--hpl-slate);
+      margin-bottom: 0.6rem;
+    }
+    .hpl-input:focus {
+      outline: none;
+      border-color: var(--hpl-teal);
+      box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15);
+    }
+    .hpl-label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--hpl-muted); margin-bottom: 0.3rem; }
+    .hpl-output {
+      font-family: ui-monospace, monospace;
+      font-size: 0.78rem;
+      background: var(--hpl-slate);
+      color: #e2e8f0;
+      padding: 0.9rem;
+      border-radius: 10px;
+      white-space: pre-wrap;
+      word-break: break-all;
+      max-height: 260px;
+      overflow-y: auto;
+      margin-top: 0.6rem;
+    }
+    .hpl-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; border-bottom: 1px solid var(--hpl-border); padding-bottom: 0.6rem; }
+    .hpl-tab {
+      padding: 0.45rem 0.9rem;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--hpl-muted);
+      font-weight: 600;
+      cursor: pointer;
+      transition: color var(--hpl-transition), background var(--hpl-transition);
+    }
+    .hpl-tab:hover { color: var(--hpl-teal); }
+    .hpl-tab.active { background: rgba(13, 148, 136, 0.12); color: var(--hpl-teal); }
+    .hpl-panel { display: none; }
+    .hpl-panel.active { display: block; }
+    .hpl-status.connected { color: var(--hpl-teal); font-weight: 600; }
+    .hpl-status.disconnected { color: var(--hpl-muted); }
+    .hpl-addr { font-family: ui-monospace, monospace; font-size: 0.75rem; word-break: break-all; color: var(--hpl-muted); }
+    .hpl-footer { text-align: center; padding: 2rem 0; color: var(--hpl-muted); font-size: 0.85rem; border-top: 1px solid var(--hpl-border); }
+    .hpl-footer a { color: var(--hpl-teal); text-decoration: none; }
+    .hpl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+    .hpl-tip { background: rgba(13, 148, 136, 0.08); border-radius: 10px; padding: 0.9rem; margin: 0.75rem 0; font-size: 0.88rem; color: var(--hpl-slate); }
+    .hpl-list { list-style: none; }
+    .hpl-list li { padding: 0.4rem 0; border-bottom: 1px solid var(--hpl-border); color: var(--hpl-muted); font-size: 0.9rem; }
+    .hpl-quote { font-family: var(--hpl-display); font-style: italic; color: var(--hpl-slate); border-left: 4px solid var(--hpl-teal); padding-left: 1rem; margin: 1rem 0; }
+    .hpl-faq h4 { font-size: 1rem; color: var(--hpl-slate); margin-bottom: 0.35rem; }
+    .hpl-faq p { font-size: 0.88rem; color: var(--hpl-muted); margin-bottom: 1rem; }
+    @media (max-width: 640px) { .hpl-hero { padding: 2rem 0; } .hpl-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="hpl-header">
+    <div class="hpl-wrap">
+      <div class="hpl-header-inner">
+        <a href="#" class="hpl-logo">HealthyPath<span>4Life</span></a>
+        <nav class="hpl-nav">
+          <a href="#about">About</a>
+          <a href="#paths">Paths</a>
+          <a href="#meals">Meals</a>
+          <a href="#companion">Companion</a>
+          <a href="#faq">FAQ</a>
+          <a href="#glossary">Glossary</a>
+          <a href="#tips">Tips</a>
+          <a href="#resources">Resources</a>
+          <button type="button" class="hpl-btn hpl-btn-primary" id="hpl-connect">Connect wallet</button>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hpl-hero">
+      <div class="hpl-wrap">
