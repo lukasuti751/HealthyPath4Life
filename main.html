@@ -200,3 +200,104 @@
   <main>
     <section class="hpl-hero">
       <div class="hpl-wrap">
+        <h1>AI healthy eating lifestyle companion</h1>
+        <p>Log meals, set goals, join paths and earn points. Your on-chain companion for a healthier life.</p>
+        <button type="button" class="hpl-btn hpl-btn-outline" id="hpl-scroll-about">Get started</button>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="about">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">About HealthyPath4Life</h2>
+        <p style="color: var(--hpl-muted); margin-bottom: 0.75rem;">HealthyPath4Life is the web interface for the Veg3n on-chain companion. Veg3n lets you log meals (as hashes), set nutrition goals, join time-bound paths and earn points. The path coordinator creates paths; the reward keeper awards points. All data lives on the EVM chain.</p>
+        <p style="color: var(--hpl-muted); margin-bottom: 0.75rem;">The companion is designed for an AI healthy eating lifestyle: you record what you eat (as a hash for privacy or consistency), tag meals with path tags (e.g. balanced, plant-based), and optionally join community paths. Points and daily streaks encourage consistency. Goals let you set a target (stored as a hash and value) for your nutrition journey.</p>
+        <p style="color: var(--hpl-muted); margin-bottom: 1rem;">This site does not store your meal data on a server; hashing is done in your wallet or in the v3gn CLI. The contract stores only hashes and metadata on-chain.</p>
+        <div class="hpl-grid">
+          <div class="hpl-card">
+            <h3>Meal logging</h3>
+            <p>Log a meal with a meal hash, path tag and type (breakfast, lunch, dinner, snack). Optionally batch log.</p>
+          </div>
+          <div class="hpl-card">
+            <h3>Paths</h3>
+            <p>Paths are time-bound (start/end block). Join a path to track your journey with others.</p>
+          </div>
+          <div class="hpl-card">
+            <h3>Points &amp; goals</h3>
+            <p>Earn points when the reward keeper awards them. Set a goal (hash + target value) for your nutrition target.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="paths">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">Paths &amp; tips</h2>
+        <p style="color: var(--hpl-muted); margin-bottom: 1rem;">Paths are created by the path coordinator. You can join or leave while a path is active. Tips (AI healthy eating tips) are recorded as hashes by the coordinator.</p>
+        <div class="hpl-tip"><strong>Meal types:</strong> 1 = Breakfast, 2 = Lunch, 3 = Dinner, 4 = Snack. Hash your meal data off-chain (e.g. keccak256) before logging.</div>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="meals">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">Meal types reference</h2>
+        <ul style="list-style: none; color: var(--hpl-muted); font-size: 0.9rem;">
+          <li style="padding: 0.35rem 0;">1 — Breakfast</li>
+          <li style="padding: 0.35rem 0;">2 — Lunch</li>
+          <li style="padding: 0.35rem 0;">3 — Dinner</li>
+          <li style="padding: 0.35rem 0;">4 — Snack</li>
+        </ul>
+        <div class="hpl-grid" style="margin-top: 1rem;">
+          <div class="hpl-card">
+            <h3>Breakfast (1)</h3>
+            <p>Log morning meals: oatmeal, eggs, fruit, smoothies, etc. Use mealHash = keccak256 of your meal description.</p>
+          </div>
+          <div class="hpl-card">
+            <h3>Lunch (2)</h3>
+            <p>Midday meals. Combine with a path tag (e.g. "balanced", "plant-based") for tracking.</p>
+          </div>
+          <div class="hpl-card">
+            <h3>Dinner (3)</h3>
+            <p>Evening meals. Same hashing and path tag logic as other types.</p>
+          </div>
+          <div class="hpl-card">
+            <h3>Snack (4)</h3>
+            <p>Snacks between meals. Helps build a full picture of your eating pattern.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="path-lifecycle">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">Path lifecycle</h2>
+        <p style="color: var(--hpl-muted); margin-bottom: 0.75rem;">The path coordinator creates a path with createPath(pathTag, startBlock, endBlock). Paths are identified by a sequential pathId. While the current block is between startBlock and endBlock, the path is active. Users call joinPath(pathId) to participate and leavePath(pathId) to leave. Path participant count is updated automatically. Use getActivePathIds() to list currently active paths.</p>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="path-tag-strings">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">Path tag strings (hash these)</h2>
+        <p style="color: var(--hpl-muted); margin-bottom: 0.5rem;">Use keccak256(ethers.toUtf8Bytes(tag)) for pathTag when creating paths or logging meals.</p>
+        <ul class="hpl-list" style="font-size: 0.85rem;">
+          <li>balanced</li>
+          <li>plant-based</li>
+          <li>high-protein</li>
+          <li>low-sugar</li>
+          <li>meal-prep</li>
+          <li>mindful</li>
+          <li>breakfast-club</li>
+          <li>lunch-goals</li>
+          <li>dinner-balance</li>
+          <li>snack-smart</li>
+          <li>whole-foods</li>
+          <li>flexitarian</li>
+          <li>mediterranean</li>
+          <li>low-carb</li>
+          <li>high-fibre</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="companion">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">Veg3n companion</h2>
