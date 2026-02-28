@@ -604,3 +604,104 @@ python v3gn_app.py interactive</pre>
           <li>To log a meal: compute mealHash = keccak256(mealDescription) and pathTag = keccak256(tagString). Call logMeal(mealHash, pathTag, mealType) with mealType 1–4.</li>
           <li>To join a path: the path coordinator must have created a path with createPath(pathTag, startBlock, endBlock). Users call joinPath(pathId) when the path is active.</li>
           <li>To award points: the reward keeper calls awardPoints(user, amount) or awardPointsForMeal(mealId).</li>
+          <li>To set a goal: any user calls setGoal(goalHash, targetValue). One goal per user; each call overwrites.</li>
+          <li>To redeem points: user calls redeemPoints(amount, reasonHash).</li>
+          <li>To record a tip: path coordinator calls recordTip(tipHash).</li>
+          <li>To record a daily snapshot: reward keeper calls recordDailySnapshot(user, dayBlock, mealCount, pointsEarned).</li>
+          <li>Read digest, meals, paths, points and other state via the Read tab or direct contract calls.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="event-details">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">Event signatures (summary)</h2>
+        <ul class="hpl-list" style="font-size: 0.82rem;">
+          <li>MealLogged(mealId, user, mealHash, pathTag, loggedAtBlock, mealType)</li>
+          <li>GoalSet(user, goalHash, targetValue, atBlock)</li>
+          <li>GoalUpdated(user, goalHash, previousTarget, newTarget, atBlock)</li>
+          <li>PathJoined(user, pathId, atBlock)</li>
+          <li>PathLeft(user, pathId, atBlock)</li>
+          <li>PathCreated(pathId, pathTag, startBlock, endBlock, createdBy, atBlock)</li>
+          <li>PointsAwarded(user, amount, totalPoints, atBlock)</li>
+          <li>PointsRedeemed(user, amount, reasonHash, atBlock)</li>
+          <li>TipRecorded(tipId, tipHash, recordedBy, atBlock)</li>
+          <li>DailyStreakUpdated(user, streakDays, atBlock)</li>
+          <li>CompanionPaused(paused, atBlock)</li>
+          <li>RewardVaultTopped(amountWei, atBlock)</li>
+          <li>BatchMealsLogged(mealIds, user, atBlock)</li>
+          <li>MealRemoved(mealId, removedBy, atBlock)</li>
+          <li>PathTagLabelSet(pathTag, labelHash, atBlock)</li>
+          <li>BatchPointsAwarded(users, amounts, atBlock)</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="path-ideas">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">Path ideas (path tags)</h2>
+        <p style="color: var(--hpl-muted); margin-bottom: 1rem;">When creating or joining paths, use path tags that match your goal. Hash the tag string off-chain for pathTag. Examples:</p>
+        <div class="hpl-grid">
+          <div class="hpl-card"><h3>Balanced</h3><p>Three meals plus snacks, mix of macros. pathTag = keccak256("balanced").</p></div>
+          <div class="hpl-card"><h3>Plant-based</h3><p>Focus on plants; pathTag = keccak256("plant-based").</p></div>
+          <div class="hpl-card"><h3>High protein</h3><p>Protein at each meal; pathTag = keccak256("high-protein").</p></div>
+          <div class="hpl-card"><h3>Low sugar</h3><p>Minimise added sugars; pathTag = keccak256("low-sugar").</p></div>
+          <div class="hpl-card"><h3>Meal prep</h3><p>Track prepped meals; pathTag = keccak256("meal-prep").</p></div>
+          <div class="hpl-card"><h3>Mindful</h3><p>Mindful eating focus; pathTag = keccak256("mindful").</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="chain-support">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">Chain support</h2>
+        <p style="color: var(--hpl-muted);">Veg3n is chain-agnostic. Deploy on Ethereum mainnet, Arbitrum, Optimism, Base, Polygon, or any EVM-compatible network. Path coordinator, reward vault and reward keeper are 40-hex EIP-55 style addresses set in the constructor. Ensure your wallet and RPC point to the same chain as the deployed contract.</p>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="troubleshooting">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">Troubleshooting</h2>
+        <ul class="hpl-list" style="font-size: 0.88rem;">
+          <li><strong>Wallet not connecting:</strong> Ensure you have a browser wallet (e.g. MetaMask) and that the site is allowed to access it. Try refreshing and reconnecting.</li>
+          <li><strong>Contract address invalid:</strong> Paste the full 0x + 40 hex address of your deployed Veg3n contract. Check the chain (mainnet vs testnet).</li>
+          <li><strong>logMeal fails:</strong> Ensure mealHash and pathTag are bytes32 (0x + 64 hex). Meal type must be 1, 2, 3 or 4. Contract must not be paused.</li>
+          <li><strong>joinPath fails:</strong> Path must exist and current block must be between path start and end. You must not already be on that path.</li>
+          <li><strong>Insufficient points:</strong> redeemPoints requires your points balance to be at least the amount. Only the reward keeper can award points.</li>
+          <li><strong>Get digest / read fails:</strong> Confirm contract address and chain. Some view functions revert if the ID is out of range (e.g. mealId 0 or beyond mealCounter).</li>
+          <li><strong>Batch log:</strong> Use batchLogMeals with arrays of equal length; max length is V3G_MAX_BATCH_MEALS (42).</li>
+          <li><strong>Path not active:</strong> Check block numbers. getPath(pathId) returns startBlock and endBlock; current block must be in [startBlock, endBlock].</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="quick-ref">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">Quick reference</h2>
+        <table style="width:100%; border-collapse: collapse; font-size: 0.85rem;">
+          <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.4rem;">Meal type 1</td><td style="padding: 0.4rem;">Breakfast</td></tr>
+          <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.4rem;">Meal type 2</td><td style="padding: 0.4rem;">Lunch</td></tr>
+          <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.4rem;">Meal type 3</td><td style="padding: 0.4rem;">Dinner</td></tr>
+          <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.4rem;">Meal type 4</td><td style="padding: 0.4rem;">Snack</td></tr>
+          <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.4rem;">logMeal</td><td style="padding: 0.4rem;">mealHash, pathTag, mealType (1–4)</td></tr>
+          <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.4rem;">joinPath</td><td style="padding: 0.4rem;">pathId (path must be active)</td></tr>
+          <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.4rem;">setGoal</td><td style="padding: 0.4rem;">goalHash, targetValue</td></tr>
+          <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.4rem;">redeemPoints</td><td style="padding: 0.4rem;">amount, reasonHash</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="disclaimer">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">Disclaimer</h2>
+        <p style="color: var(--hpl-muted); font-size: 0.9rem;">HealthyPath4Life and Veg3n are for education and on-chain interaction only. Healthy eating tips are general and do not replace professional medical or nutritional advice. Always consult a qualified provider for health decisions. Use the contract at your own risk on mainnet.</p>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="meal-examples">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">Meal description examples</h2>
+        <p style="color: var(--hpl-muted); margin-bottom: 0.75rem;">Hash these (or similar) for mealHash. Use a consistent format off-chain.</p>
+        <ul class="hpl-list" style="font-size: 0.85rem;">
+          <li>Oatmeal with berries and nuts</li>
+          <li>Scrambled eggs with spinach and whole-grain toast</li>
