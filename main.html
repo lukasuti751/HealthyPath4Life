@@ -806,3 +806,104 @@ python v3gn_app.py interactive</pre>
       function setAddr(a) {
         document.getElementById("hpl-contract-addr").value = a;
         localStorage.setItem(STORAGE_KEY, a);
+      }
+      function contract() {
+        const a = getAddr();
+        if (!a || !provider) return null;
+        return new ethers.Contract(a, ABI, signer || provider);
+      }
+      function out(id, text) { const e = document.getElementById(id); if (e) e.textContent = text || ""; }
+
+      function updateWallet(connected, account) {
+        const st = document.getElementById("hpl-status");
+        const acc = document.getElementById("hpl-account");
+        const conn = document.getElementById("hpl-connect");
+        const disc = document.getElementById("hpl-disconnect");
+        if (connected) {
+          st.textContent = "Connected";
+          st.className = "hpl-status connected";
+          acc.textContent = account;
+          acc.style.display = "block";
+          conn.style.display = "none";
+          disc.style.display = "inline-block";
+        } else {
+          st.textContent = "Not connected";
+          st.className = "hpl-status disconnected";
+          acc.style.display = "none";
+          conn.style.display = "inline-block";
+          disc.style.display = "none";
+        }
+      }
+
+      document.getElementById("hpl-connect").addEventListener("click", async function() {
+        if (typeof window.ethereum === "undefined") { alert("No wallet found."); return; }
+        try {
+          const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+          if (accounts.length) {
+            provider = new ethers.BrowserProvider(window.ethereum);
+            signer = await provider.getSigner();
+            updateWallet(true, accounts[0]);
+          }
+        } catch (e) { alert("Connection failed: " + (e.message || e)); }
+      });
+      document.getElementById("hpl-disconnect").addEventListener("click", function() {
+        provider = null; signer = null;
+        updateWallet(false);
+      });
+      document.getElementById("hpl-scroll-about").addEventListener("click", function() {
+        document.getElementById("about").scrollIntoView({ behavior: "smooth" });
+      });
+
+      document.querySelectorAll(".hpl-tab").forEach(function(t) {
+        t.addEventListener("click", function() {
+          const panelId = "hpl-panel-" + this.getAttribute("data-panel");
+          document.querySelectorAll(".hpl-tab").forEach(function(x) { x.classList.remove("active"); });
+          document.querySelectorAll(".hpl-panel").forEach(function(x) { x.classList.remove("active"); });
+          this.classList.add("active");
+          const p = document.getElementById(panelId);
+          if (p) p.classList.add("active");
+        });
+      });
+
+      document.getElementById("hpl-get-digest").addEventListener("click", async function() {
+        const c = contract();
+        if (!c) { out("hpl-digest-out", "Set contract address and connect wallet."); return; }
+        try {
+          const r = await c.getCompanionDigest();
+          out("hpl-digest-out", "totalMeals: " + r.totalMeals.toString() + "\ntotalPaths: " + r.totalPaths.toString() + "\ntotalTips: " + r.totalTips.toString() + "\ndeployBlockNum: " + r.deployBlockNum.toString() + "\npaused: " + r.paused);
+        } catch (e) { out("hpl-digest-out", "Error: " + (e.message || e)); }
+      });
+
+      document.getElementById("hpl-get-meal").addEventListener("click", async function() {
+        const c = contract();
+        const id = document.getElementById("hpl-meal-id").value.trim();
+        if (!c) { out("hpl-meal-out", "Set contract address and connect wallet."); return; }
+        if (!id) { out("hpl-meal-out", "Enter meal ID."); return; }
+        try {
+          const r = await c.getMeal(id);
+          out("hpl-meal-out", "user: " + r.user + "\nmealHash: " + r.mealHash + "\npathTag: " + r.pathTag + "\nloggedAtBlock: " + r.loggedAtBlock.toString() + "\nmealType: " + r.mealType + "\nactive: " + r.active);
+        } catch (e) { out("hpl-meal-out", "Error: " + (e.message || e)); }
+      });
+
+      document.getElementById("hpl-get-points").addEventListener("click", async function() {
+        const c = contract();
+        let addr = document.getElementById("hpl-points-addr").value.trim();
+        if (!c) { out("hpl-points-out", "Set contract address and connect wallet."); return; }
+        if (!addr && signer) addr = (await signer.getAddress());
+        if (!addr) { out("hpl-points-out", "Enter address or connect wallet."); return; }
+        try {
+          const bal = await c.pointsBalance(addr);
+          out("hpl-points-out", "Points: " + bal.toString());
+        } catch (e) { out("hpl-points-out", "Error: " + (e.message || e)); }
+      });
+
+      document.getElementById("hpl-log-meal").addEventListener("click", async function() {
+        const c = contract();
+        if (!c || !signer) { out("hpl-log-out", "Connect wallet and set contract address."); return; }
+        const mealHash = document.getElementById("hpl-log-mealhash").value.trim();
+        const pathTag = document.getElementById("hpl-log-pathtag").value.trim();
+        const mealType = parseInt(document.getElementById("hpl-log-type").value, 10) || 1;
+        if (!mealHash || !pathTag) { out("hpl-log-out", "Fill meal hash and path tag."); return; }
+        if (mealType < 1 || mealType > 4) { out("hpl-log-out", "Meal type must be 1–4."); return; }
+        try {
+          const tx = await c.logMeal(mealHash, pathTag, mealType);
