@@ -503,3 +503,104 @@ const pathTag = ethers.keccak256(ethers.toUtf8Bytes("balanced"));
       </div>
     </section>
 
+    <section class="hpl-section" id="constants-ref">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">Contract constants (reference)</h2>
+        <p style="color: var(--hpl-muted); margin-bottom: 0.75rem;">Use getConstants() on the contract to read bpsBase, maxMeals, maxPaths, maxTips, maxBatchMeals, pointsScale.</p>
+        <table style="width:100%; border-collapse: collapse; font-size: 0.88rem; margin-top: 0.75rem;">
+          <thead><tr style="border-bottom: 2px solid var(--hpl-teal);"><th style="text-align:left; padding: 0.4rem 0.6rem;">Constant</th><th style="text-align:left; padding: 0.4rem 0.6rem;">Value</th></tr></thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.4rem 0.6rem;">V3G_BPS_BASE</td><td style="padding: 0.4rem 0.6rem;">10000</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.4rem 0.6rem;">V3G_MAX_MEALS</td><td style="padding: 0.4rem 0.6rem;">3200</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.4rem 0.6rem;">V3G_MAX_PATHS</td><td style="padding: 0.4rem 0.6rem;">110</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.4rem 0.6rem;">V3G_MAX_TIPS</td><td style="padding: 0.4rem 0.6rem;">450</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.4rem 0.6rem;">V3G_MAX_BATCH_MEALS</td><td style="padding: 0.4rem 0.6rem;">42</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.4rem 0.6rem;">V3G_POINTS_SCALE</td><td style="padding: 0.4rem 0.6rem;">1e18</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.4rem 0.6rem;">V3G_MEAL_BREAKFAST</td><td style="padding: 0.4rem 0.6rem;">1</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.4rem 0.6rem;">V3G_MEAL_LUNCH</td><td style="padding: 0.4rem 0.6rem;">2</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.4rem 0.6rem;">V3G_MEAL_DINNER</td><td style="padding: 0.4rem 0.6rem;">3</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.4rem 0.6rem;">V3G_MEAL_SNACK</td><td style="padding: 0.4rem 0.6rem;">4</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.4rem 0.6rem;">V3G_MAX_DAILY_SNAPSHOTS</td><td style="padding: 0.4rem 0.6rem;">5000</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.4rem 0.6rem;">V3G_BLOCKS_PER_DAY_EST</td><td style="padding: 0.4rem 0.6rem;">7200</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="tips">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">Healthy eating tips</h2>
+        <p style="color: var(--hpl-muted); margin-bottom: 1rem;">General ideas for your path. Not medical advice.</p>
+        <div class="hpl-grid">
+          <div class="hpl-card"><h3>Eat whole foods</h3><p>Prioritise vegetables, fruits, whole grains, legumes and lean proteins.</p></div>
+          <div class="hpl-card"><h3>Stay hydrated</h3><p>Water supports digestion and energy. Pair meals with a glass of water.</p></div>
+          <div class="hpl-card"><h3>Balance meals</h3><p>Combine protein, fibre and healthy fats for sustained energy.</p></div>
+          <div class="hpl-card"><h3>Plan ahead</h3><p>Meal prep can help you stick to healthier choices during busy days.</p></div>
+          <div class="hpl-card"><h3>Mindful eating</h3><p>Eat slowly and pay attention to hunger and fullness cues.</p></div>
+          <div class="hpl-card"><h3>Limit processed</h3><p>Reduce highly processed foods and added sugars where possible.</p></div>
+          <div class="hpl-card"><h3>Portion awareness</h3><p>Reasonable portions help maintain balance without strict dieting.</p></div>
+          <div class="hpl-card"><h3>Regular timing</h3><p>Consistent meal times can support metabolism and energy levels.</p></div>
+          <div class="hpl-card"><h3>Variety</h3><p>Different colours and types of produce provide a range of nutrients.</p></div>
+          <div class="hpl-card"><h3>Sleep &amp; stress</h3><p>Good sleep and stress management support healthier eating habits.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="v3gn-cli">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">v3gn CLI (Python app)</h2>
+        <p style="color: var(--hpl-muted); margin-bottom: 0.75rem;">The v3gn app is a command-line companion. Example commands (run from project folder):</p>
+        <pre class="hpl-output" style="max-height: 320px; font-size: 0.75rem;">python v3gn_app.py lookup --meal "oatmeal"
+python v3gn_app.py lookup --path-tag "balanced"
+python v3gn_app.py list-meals
+python v3gn_app.py list-paths
+python v3gn_app.py hash --text "Oatmeal with berries"
+python v3gn_app.py hash-batch --meals "Breakfast,Oatmeal" --tags "balanced,morning"
+python v3gn_app.py suggest "breakfast"
+python v3gn_app.py export-hashes --meal "Oatmeal" --tag "balanced" --type 1
+python v3gn_app.py config
+python v3gn_app.py constants
+python v3gn_app.py stats
+python v3gn_app.py demo
+python v3gn_app.py interactive</pre>
+        <p style="color: var(--hpl-muted); font-size: 0.85rem; margin-top: 0.5rem;">Use export-hashes to get mealHash and pathTag for logMeal. Meal type 1–4 matches the contract.</p>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="resources">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">Resources</h2>
+        <ul class="hpl-list">
+          <li>Veg3n contract (Solidity) — deploy on any EVM chain; path coordinator, reward vault and reward keeper are set in the constructor.</li>
+          <li>v3gn — Python CLI app for meal lookup, hashing and companion helpers (see project folder).</li>
+          <li>Ethers.js — for wallet connection and contract calls from the browser.</li>
+        </ul>
+        <p style="color: var(--hpl-muted); font-size: 0.85rem; margin-top: 0.75rem;">This site does not store private keys. Contract address is stored in localStorage for convenience.</p>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="view-functions">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">View functions (summary)</h2>
+        <p style="color: var(--hpl-muted); margin-bottom: 0.75rem;">Key read functions on the Veg3n contract: getCompanionDigest, getMeal, getMealIds, getPathIds, getConstants, pointsBalance, getPath, getPathParticipants, getActivePathIds, getMealsPaginated, getTipIds, getCompanionDomain, getImmutables, getLatestMealIds, getMealCountByUser, getActiveMealCount, isPathActive, getMealsByUserPaginated, getPointsForAddresses, getTotalPointsInCirculation, getDailyStreak, getLastLogBlock, getUserGoal, getPathStats, getCounters, getMultipleMeals, getMultipleTips, getFirstAndLastMealBlocks, getMealCountInBlock, getSnapshotsPaginated, getPathsPaginated, getMealTypesSummary, getPathTagsWithCounts, getUniqueUserCount, getMealsByUserAndPathTag, getLatestTips, getUserStats, getPathParticipantAddresses, getCompanionDigestFull, getFullCompanionState, getFullImmutablesState, getMealLogFull, getPathFull, getDailySnapshotFull.</p>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="deploy">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">Deploy &amp; configure</h2>
+        <p style="color: var(--hpl-muted); margin-bottom: 0.5rem;">Compile Veg3n with Solidity 0.8.24. Use OpenZeppelin ReentrancyGuard, Pausable, Ownable. The constructor takes no arguments; pathCoordinator, rewardVault and rewardKeeper are set inside the contract (immutable). After deployment, the owner can set points per meal and pause state. The path coordinator should create paths and optionally set path tag labels and record tips. The reward keeper can award points and record daily snapshots.</p>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="integration">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">Integration guide</h2>
+        <ol style="color: var(--hpl-muted); font-size: 0.9rem; padding-left: 1.25rem; line-height: 1.8;">
+          <li>Deploy the Veg3n contract (no constructor args). Note the contract address.</li>
+          <li>Configure the path coordinator, reward vault and reward keeper addresses in your backend if needed (they are already in the contract).</li>
+          <li>In the HealthyPath4Life UI, set the contract address in the Config tab. It is saved in localStorage.</li>
+          <li>Connect a wallet (e.g. MetaMask) that holds gas on the target chain.</li>
+          <li>To log a meal: compute mealHash = keccak256(mealDescription) and pathTag = keccak256(tagString). Call logMeal(mealHash, pathTag, mealType) with mealType 1–4.</li>
+          <li>To join a path: the path coordinator must have created a path with createPath(pathTag, startBlock, endBlock). Users call joinPath(pathId) when the path is active.</li>
+          <li>To award points: the reward keeper calls awardPoints(user, amount) or awardPointsForMeal(mealId).</li>
