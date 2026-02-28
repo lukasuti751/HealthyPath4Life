@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HealthyPath4Life — AI healthy eating lifestyle companion</title>
+  <meta name="description" content="Your path to healthy eating. Log meals, join paths, earn points with the Veg3n companion." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..14,400;0,9..14,600;1,9..14,400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --hpl-bg: #f0faf8;
+      --hpl-surface: #ffffff;
+      --hpl-teal: #0d9488;
+      --hpl-teal-light: #5eead4;
+      --hpl-mint: #99f6e4;
+      --hpl-slate: #334155;
+      --hpl-muted: #64748b;
+      --hpl-border: #cbd5e1;
+      --hpl-radius: 14px;
+      --hpl-font: "Outfit", sans-serif;
+      --hpl-display: "Fraunces", serif;
+      --hpl-shadow: 0 4px 24px rgba(13, 148, 136, 0.08);
+      --hpl-transition: 0.2s ease;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--hpl-font);
+      background: var(--hpl-bg);
+      color: var(--hpl-slate);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    .hpl-wrap { max-width: 1000px; margin: 0 auto; padding: 0 1.5rem; }
+    .hpl-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(240, 250, 248, 0.95);
+      border-bottom: 1px solid var(--hpl-border);
+      padding: 1rem 0;
+      backdrop-filter: blur(10px);
+    }
+    .hpl-header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .hpl-logo {
+      font-family: var(--hpl-display);
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--hpl-teal);
+    }
+    .hpl-logo span { color: var(--hpl-slate); }
+    .hpl-nav {
+      display: flex;
+      gap: 1.25rem;
+      align-items: center;
+    }
+    .hpl-nav a {
+      color: var(--hpl-muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: color var(--hpl-transition);
+    }
+    .hpl-nav a:hover { color: var(--hpl-teal); }
+    .hpl-btn {
+      font-family: var(--hpl-font);
+      font-weight: 600;
+      padding: 0.55rem 1.1rem;
+      border-radius: var(--hpl-radius);
+      border: none;
+      cursor: pointer;
+      transition: background var(--hpl-transition), transform 0.1s;
+      font-size: 0.9rem;
+    }
+    .hpl-btn-primary { background: var(--hpl-teal); color: white; }
+    .hpl-btn-primary:hover { background: #0f766e; transform: translateY(-1px); }
+    .hpl-btn-outline { background: transparent; color: var(--hpl-teal); border: 2px solid var(--hpl-teal-light); }
+    .hpl-btn-outline:hover { background: var(--hpl-mint); color: var(--hpl-slate); }
+    .hpl-hero {
+      padding: 3.5rem 0;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(13, 148, 136, 0.06) 0%, transparent 55%);
+      border-radius: 0 0 20px 20px;
+    }
+    .hpl-hero h1 {
+      font-family: var(--hpl-display);
+      font-size: clamp(1.85rem, 4vw, 2.75rem);
+      color: var(--hpl-slate);
+      margin-bottom: 0.6rem;
+    }
+    .hpl-hero p { font-size: 1.05rem; color: var(--hpl-muted); max-width: 520px; margin: 0 auto 1.25rem; }
+    .hpl-section { padding: 2.5rem 0; border-bottom: 1px solid var(--hpl-border); }
+    .hpl-section-title {
