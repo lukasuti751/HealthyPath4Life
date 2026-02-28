@@ -301,3 +301,104 @@
     <section class="hpl-section" id="companion">
       <div class="hpl-wrap">
         <h2 class="hpl-section-title">Veg3n companion</h2>
+        <p style="color: var(--hpl-muted); margin-bottom: 0.75rem;">Connect your wallet and set the Veg3n contract address below. Read digest, meals, paths, points; write meal logs and goals.</p>
+
+        <div class="hpl-card" style="margin-bottom: 1rem;">
+          <h3>Wallet</h3>
+          <p class="hpl-status disconnected" id="hpl-status">Not connected</p>
+          <p id="hpl-account" class="hpl-addr" style="display:none;"></p>
+          <button type="button" class="hpl-btn hpl-btn-outline" id="hpl-disconnect" style="display:none;">Disconnect</button>
+        </div>
+
+        <div class="hpl-tabs">
+          <button type="button" class="hpl-tab active" data-panel="read">Read</button>
+          <button type="button" class="hpl-tab" data-panel="write">Write</button>
+          <button type="button" class="hpl-tab" data-panel="config">Config</button>
+        </div>
+
+        <div id="hpl-panel-read" class="hpl-panel active">
+          <div class="hpl-card">
+            <h3>Companion digest</h3>
+            <p class="hpl-label">Total meals, paths, tips, deploy block, paused.</p>
+            <button type="button" class="hpl-btn hpl-btn-primary" id="hpl-get-digest">Get digest</button>
+            <pre class="hpl-output" id="hpl-digest-out"></pre>
+          </div>
+          <div class="hpl-card">
+            <h3>Meal by ID</h3>
+            <label class="hpl-label">Meal ID</label>
+            <input type="number" class="hpl-input" id="hpl-meal-id" placeholder="1" min="1" />
+            <button type="button" class="hpl-btn hpl-btn-primary" id="hpl-get-meal">Get meal</button>
+            <pre class="hpl-output" id="hpl-meal-out"></pre>
+          </div>
+          <div class="hpl-card">
+            <h3>Points balance</h3>
+            <label class="hpl-label">Address</label>
+            <input type="text" class="hpl-input" id="hpl-points-addr" placeholder="0x..." />
+            <button type="button" class="hpl-btn hpl-btn-primary" id="hpl-get-points">Get points</button>
+            <pre class="hpl-output" id="hpl-points-out"></pre>
+          </div>
+          <div class="hpl-card">
+            <h3>Meal IDs list</h3>
+            <button type="button" class="hpl-btn hpl-btn-outline" id="hpl-get-meal-ids">Get meal IDs</button>
+            <pre class="hpl-output" id="hpl-meal-ids-out"></pre>
+          </div>
+          <div class="hpl-card">
+            <h3>Path IDs list</h3>
+            <button type="button" class="hpl-btn hpl-btn-outline" id="hpl-get-path-ids">Get path IDs</button>
+            <pre class="hpl-output" id="hpl-path-ids-out"></pre>
+          </div>
+          <div class="hpl-card">
+            <h3>Constants</h3>
+            <button type="button" class="hpl-btn hpl-btn-outline" id="hpl-get-constants">Get constants</button>
+            <pre class="hpl-output" id="hpl-constants-out"></pre>
+          </div>
+        </div>
+
+        <div id="hpl-panel-write" class="hpl-panel">
+          <div class="hpl-card">
+            <h3>Log meal</h3>
+            <p class="hpl-label">Hash meal data off-chain (e.g. ethers.keccak256(ethers.toUtf8Bytes("Oatmeal"))). Path tag and meal type (1–4) required.</p>
+            <label class="hpl-label">Meal hash (0x...)</label>
+            <input type="text" class="hpl-input" id="hpl-log-mealhash" placeholder="0x..." />
+            <label class="hpl-label">Path tag hash (0x...)</label>
+            <input type="text" class="hpl-input" id="hpl-log-pathtag" placeholder="0x..." />
+            <label class="hpl-label">Meal type (1–4)</label>
+            <input type="number" class="hpl-input" id="hpl-log-type" placeholder="1" min="1" max="4" />
+            <button type="button" class="hpl-btn hpl-btn-primary" id="hpl-log-meal">Log meal</button>
+            <pre class="hpl-output" id="hpl-log-out"></pre>
+          </div>
+        </div>
+
+        <div id="hpl-panel-config" class="hpl-panel">
+          <div class="hpl-card">
+            <h3>Contract address</h3>
+            <label class="hpl-label">Veg3n contract</label>
+            <input type="text" class="hpl-input" id="hpl-contract-addr" placeholder="0x..." />
+            <p style="font-size: 0.8rem; color: var(--hpl-muted); margin-top: 0.4rem;">Saved in localStorage (hpl_veg3n_contract).</p>
+          </div>
+          <div class="hpl-card">
+            <h3>Contract roles (immutable)</h3>
+            <ul class="hpl-list">
+              <li><strong>pathCoordinator</strong> — Creates paths, records tips, sets path tag labels.</li>
+              <li><strong>rewardVault</strong> — Receives ETH sent to the contract (receive()).</li>
+              <li><strong>rewardKeeper</strong> — Awards points (single or batch), records daily snapshots.</li>
+              <li><strong>owner</strong> — Pauses companion, sets points per meal.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="faq">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">FAQ</h2>
+        <div class="hpl-faq">
+          <h4>What is Veg3n?</h4>
+          <p>Veg3n is an on-chain AI healthy eating companion. You log meals (as hashes), set goals, join paths and earn points. Path coordinator and reward keeper are set at deployment.</p>
+          <h4>How do I log a meal?</h4>
+          <p>Call logMeal(mealHash, pathTag, mealType). Hash your meal description off-chain (e.g. keccak256). Meal type: 1=breakfast, 2=lunch, 3=dinner, 4=snack.</p>
+          <h4>What are paths?</h4>
+          <p>Paths are time-bound (start block, end block). The path coordinator creates them. You join with joinPath(pathId) while the path is active.</p>
+          <h4>How do I get points?</h4>
+          <p>The reward keeper awards points via awardPoints or awardPointsForMeal. You can redeem points with redeemPoints(amount, reasonHash).</p>
+          <h4>What are daily snapshots?</h4>
