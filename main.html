@@ -402,3 +402,104 @@
           <h4>How do I get points?</h4>
           <p>The reward keeper awards points via awardPoints or awardPointsForMeal. You can redeem points with redeemPoints(amount, reasonHash).</p>
           <h4>What are daily snapshots?</h4>
+          <p>The reward keeper can record daily snapshots (user, day block, meal count, points earned) for analytics.</p>
+          <h4>What is the daily streak?</h4>
+          <p>The contract updates a per-user streak when you log meals. It increments if you log again within a short block window; otherwise it resets to 1.</p>
+          <h4>How do I set a goal?</h4>
+          <p>Call setGoal(goalHash, targetValue). The goal hash could represent a nutrition target (e.g. calories, protein); target value is a number. Only one goal per user (updated on each set).</p>
+          <h4>Can I remove a meal?</h4>
+          <p>Yes. As the meal owner you can call removeMeal(mealId). The reward keeper can also remove any meal.</p>
+          <h4>What are path tag labels?</h4>
+          <p>The path coordinator can set a label hash for a path tag via setPathTagLabel(pathTag, labelHash). Useful for off-chain display of category names.</p>
+          <h4>Is the contract pausable?</h4>
+          <p>Yes. The owner can set companionPaused. When paused, meal logging, path creation, tip recording and similar actions are disabled.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="write-actions">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">Other write actions</h2>
+        <p style="color: var(--hpl-muted); margin-bottom: 0.75rem;">Use your wallet or Remix/Etherscan to call these. Require connected wallet and contract ABI.</p>
+        <ul class="hpl-list">
+          <li><strong>joinPath(pathId)</strong> — Join an active path. Path must exist and current block between start and end.</li>
+          <li><strong>leavePath(pathId)</strong> — Leave a path you are on.</li>
+          <li><strong>setGoal(goalHash, targetValue)</strong> — Set or update your nutrition goal (one per user).</li>
+          <li><strong>redeemPoints(amount, reasonHash)</strong> — Deduct points from your balance with a reason hash.</li>
+          <li><strong>removeMeal(mealId)</strong> — Deactivate a meal log. Callable by the meal user or reward keeper.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="events-errors">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">Events &amp; errors (reference)</h2>
+        <p style="color: var(--hpl-muted); margin-bottom: 0.5rem;">Events: MealLogged, GoalSet, GoalUpdated, PathJoined, PathLeft, PathCreated, PointsAwarded, PointsRedeemed, TipRecorded, DailyStreakUpdated, CompanionPaused, RewardVaultTopped, BatchMealsLogged, MealRemoved, PathTagLabelSet, BatchPointsAwarded.</p>
+        <p style="color: var(--hpl-muted); margin-bottom: 0.75rem;">Errors use the V3G_ prefix. Full list below.</p>
+        <table style="width:100%; border-collapse: collapse; font-size: 0.8rem; margin-top: 0.5rem;">
+          <thead><tr style="border-bottom: 2px solid var(--hpl-teal);"><th style="text-align:left; padding: 0.35rem 0.5rem;">Error</th><th style="text-align:left; padding: 0.35rem 0.5rem;">When</th></tr></thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_ZeroAddress</td><td style="padding: 0.35rem 0.5rem;">Required address is zero</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_InvalidMealId</td><td style="padding: 0.35rem 0.5rem;">Meal ID out of range</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_MealNotFound</td><td style="padding: 0.35rem 0.5rem;">Meal does not exist or inactive</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_InvalidMealHash</td><td style="padding: 0.35rem 0.5rem;">mealHash is bytes32(0)</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_NotPathCoordinator</td><td style="padding: 0.35rem 0.5rem;">Caller is not path coordinator</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_NotRewardKeeper</td><td style="padding: 0.35rem 0.5rem;">Caller is not reward keeper</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_CompanionPaused</td><td style="padding: 0.35rem 0.5rem;">Contract is paused</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_ReentrantCall</td><td style="padding: 0.35rem 0.5rem;">Reentrancy detected</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_ZeroAmount</td><td style="padding: 0.35rem 0.5rem;">Amount is zero</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_InsufficientPoints</td><td style="padding: 0.35rem 0.5rem;">Not enough points to redeem</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_MaxMealsReached</td><td style="padding: 0.35rem 0.5rem;">Meal limit reached</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_ArrayLengthMismatch</td><td style="padding: 0.35rem 0.5rem;">Array lengths differ in batch</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_BatchTooLarge</td><td style="padding: 0.35rem 0.5rem;">Batch exceeds max size</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_ZeroBatchSize</td><td style="padding: 0.35rem 0.5rem;">Empty batch</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_PathNotFound</td><td style="padding: 0.35rem 0.5rem;">Path ID invalid</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_PathNotActive</td><td style="padding: 0.35rem 0.5rem;">Path not in active block range</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_AlreadyOnPath</td><td style="padding: 0.35rem 0.5rem;">User already joined path</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_NotOnPath</td><td style="padding: 0.35rem 0.5rem;">User not on path</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_MaxPathsReached</td><td style="padding: 0.35rem 0.5rem;">Path limit reached</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_InvalidBlockRange</td><td style="padding: 0.35rem 0.5rem;">startBlock >= endBlock</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_InvalidMealType</td><td style="padding: 0.35rem 0.5rem;">Meal type not 1–4</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_TipNotFound</td><td style="padding: 0.35rem 0.5rem;">Tip ID invalid</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_MaxTipsReached</td><td style="padding: 0.35rem 0.5rem;">Tip limit reached</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_NotMealUser</td><td style="padding: 0.35rem 0.5rem;">Caller is not meal user or keeper</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_MealAlreadyRemoved</td><td style="padding: 0.35rem 0.5rem;">Meal already inactive</td></tr>
+            <tr style="border-bottom: 1px solid var(--hpl-border);"><td style="padding: 0.35rem 0.5rem;">V3G_InvalidLabelHash</td><td style="padding: 0.35rem 0.5rem;">Label hash is bytes32(0)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="streak-goals">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">Daily streak &amp; goals</h2>
+        <p style="color: var(--hpl-muted); margin-bottom: 0.75rem;">The Veg3n companion tracks a daily streak per user. Each time you log a meal, the contract updates lastLogBlock and may increment dailyStreak if the block distance is within a threshold (roughly same “day”). Use getDailyStreak(user) and getLastLogBlock(user) to read. Goals are stored per user: goalHash (bytes32) and targetValue (uint256). Set with setGoal(goalHash, targetValue). Read with getUserGoal(user) or getGoalHash / getGoalTargetValue / getGoalSetAtBlock.</p>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="glossary">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">Glossary</h2>
+        <ul class="hpl-list">
+          <li><strong>Meal log</strong> — One on-chain record: user, mealHash, pathTag, loggedAtBlock, mealType, active.</li>
+          <li><strong>Path</strong> — Time-bound period with pathTag, startBlock, endBlock, participantCount.</li>
+          <li><strong>Path tag</strong> — bytes32 label for a category of meals (e.g. "balanced", "plant-based"). Can have a label hash set by coordinator.</li>
+          <li><strong>Points</strong> — On-chain balance per address, awarded by reward keeper, redeemable with a reason hash.</li>
+          <li><strong>Daily snapshot</strong> — Optional record: user, dayBlock, mealCount, pointsEarned.</li>
+          <li><strong>Companion domain</strong> — keccak256-derived identity for the contract at deployment.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="hash-help">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">How to hash for logging</h2>
+        <p style="color: var(--hpl-muted); margin-bottom: 0.75rem;">Meal and path tag are stored as bytes32. Hash off-chain (e.g. with ethers.js):</p>
+        <pre class="hpl-output" style="max-height: 180px;">// ethers v6
+import { ethers } from "ethers";
+const mealHash = ethers.keccak256(ethers.toUtf8Bytes("Oatmeal with berries"));
+const pathTag = ethers.keccak256(ethers.toUtf8Bytes("balanced"));
+// Then: contract.logMeal(mealHash, pathTag, 1); // 1 = breakfast</pre>
+      </div>
+    </section>
+
