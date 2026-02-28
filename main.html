@@ -705,3 +705,104 @@ python v3gn_app.py interactive</pre>
         <ul class="hpl-list" style="font-size: 0.85rem;">
           <li>Oatmeal with berries and nuts</li>
           <li>Scrambled eggs with spinach and whole-grain toast</li>
+          <li>Greek yogurt with honey and granola</li>
+          <li>Green smoothie (kale, banana, almond milk)</li>
+          <li>Grilled chicken salad with quinoa</li>
+          <li>Lentil soup with whole-grain bread</li>
+          <li>Salmon with roasted vegetables and brown rice</li>
+          <li>Vegetable stir-fry with tofu</li>
+          <li>Hummus and vegetable sticks</li>
+          <li>Apple with almond butter</li>
+          <li>Mixed nuts and dried fruit</li>
+          <li>Whole-grain wrap with turkey and avocado</li>
+          <li>Bean chilli with brown rice</li>
+          <li>Baked sweet potato with black beans</li>
+          <li>Omelette with vegetables and cheese</li>
+          <li>Porridge with banana and cinnamon</li>
+          <li>Chickpea curry with basmati rice</li>
+          <li>Turkey and vegetable skewers</li>
+          <li>Edamame and sea salt</li>
+          <li>Trail mix (nuts, seeds, dark chocolate)</li>
+        </ul>
+      </div>
+    </section>
+
+  <footer class="hpl-footer">
+    <div class="hpl-wrap">
+      <p>HealthyPath4Life — AI healthy eating lifestyle companion. Powered by Veg3n.</p>
+        <p style="margin-top: 0.4rem; font-size: 0.8rem;">Contract addresses (path coordinator, reward vault, reward keeper) are 40-hex EIP-55 style and set at deployment. Not financial or medical advice.</p>
+        <p style="margin-top: 0.3rem; font-size: 0.78rem;">HealthyPath4Life and Veg3n are part of the veg3n project. For batch log use batchLogMeals(mealHashes, pathTags, mealTypes). For multiple paths use getPathIds() and filter by active block range.</p>
+    <section class="hpl-section" id="more-tips">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">More healthy eating ideas</h2>
+        <p style="color: var(--hpl-muted); margin-bottom: 0.75rem;">Use these as inspiration for meal descriptions to hash and log.</p>
+        <ul class="hpl-list" style="font-size: 0.85rem;">
+          <li>Start the day with protein and fibre (eggs, oats, fruit).</li>
+          <li>Include vegetables at lunch and dinner.</li>
+          <li>Choose whole grains over refined when possible.</li>
+          <li>Snack on nuts, fruit or yogurt instead of highly processed options.</li>
+          <li>Drink water throughout the day.</li>
+          <li>Limit sugary drinks and excess added sugar.</li>
+          <li>Cook at home more often to control ingredients.</li>
+          <li>Use the path tag "balanced" for mixed macros.</li>
+          <li>Log snacks as meal type 4 for a complete picture.</li>
+          <li>Join a path that matches your goal (e.g. plant-based, high-protein).</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="hpl-section" id="references">
+      <div class="hpl-wrap">
+        <h2 class="hpl-section-title">References</h2>
+        <ul class="hpl-list" style="font-size: 0.85rem;">
+          <li>Veg3n.sol — Solidity 0.8.24, OpenZeppelin ReentrancyGuard, Pausable, Ownable</li>
+          <li>getCompanionDigest — totalMeals, totalPaths, totalTips, deployBlockNum, paused</li>
+          <li>getMeal(mealId) — user, mealHash, pathTag, loggedAtBlock, mealType, active</li>
+          <li>pointsBalance(address) — returns uint256 points</li>
+          <li>logMeal(mealHash, pathTag, mealType) — returns mealId</li>
+          <li>batchLogMeals(mealHashes[], pathTags[], mealTypes[]) — returns mealIds[]</li>
+          <li>createPath(pathTag, startBlock, endBlock) — path coordinator only</li>
+          <li>joinPath(pathId) / leavePath(pathId) — user</li>
+          <li>setGoal(goalHash, targetValue) — user</li>
+          <li>awardPoints(user, amount) / awardPointsForMeal(mealId) — reward keeper only</li>
+          <li>redeemPoints(amount, reasonHash) — user</li>
+          <li>recordTip(tipHash) — path coordinator only</li>
+          <li>recordDailySnapshot(user, dayBlock, mealCount, pointsEarned) — reward keeper only</li>
+          <li>removeMeal(mealId) — meal user or reward keeper</li>
+          <li>setPathTagLabel(pathTag, labelHash) — path coordinator only</li>
+          <li>setCompanionPaused(paused) / setPointsPerMeal(amount) — owner only</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="hpl-footer">
+    <div class="hpl-wrap">
+      <p>HealthyPath4Life — AI healthy eating lifestyle companion. Powered by Veg3n.</p>
+      <p style="margin-top: 0.4rem; font-size: 0.8rem;">Contract addresses (path coordinator, reward vault, reward keeper) are 40-hex EIP-55 style and set at deployment. Not financial or medical advice.</p>
+      <p style="margin-top: 0.3rem; font-size: 0.78rem;">HealthyPath4Life and Veg3n are part of the veg3n project.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6/dist/ethers.umd.min.js"></script>
+  <script>
+    (function() {
+      const STORAGE_KEY = "hpl_veg3n_contract";
+      let provider = null, signer = null;
+
+      const ABI = [
+        "function getCompanionDigest() view returns (uint256 totalMeals, uint256 totalPaths, uint256 totalTips, uint256 deployBlockNum, bool paused)",
+        "function getMeal(uint256 mealId) view returns (address user, bytes32 mealHash, bytes32 pathTag, uint256 loggedAtBlock, uint8 mealType, bool active)",
+        "function pointsBalance(address) view returns (uint256)",
+        "function logMeal(bytes32 mealHash, bytes32 pathTag, uint8 mealType) returns (uint256 mealId)",
+        "function getMealIds() view returns (uint256[])",
+        "function getPathIds() view returns (uint256[])",
+        "function getConstants() view returns (uint256 bpsBase, uint256 maxMeals, uint256 maxPaths, uint256 maxTips, uint256 maxBatchMeals, uint256 pointsScale)"
+      ];
+
+      function getAddr() {
+        return document.getElementById("hpl-contract-addr").value.trim() || localStorage.getItem(STORAGE_KEY) || "";
+      }
+      function setAddr(a) {
+        document.getElementById("hpl-contract-addr").value = a;
+        localStorage.setItem(STORAGE_KEY, a);
