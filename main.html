@@ -907,3 +907,97 @@ python v3gn_app.py interactive</pre>
         if (mealType < 1 || mealType > 4) { out("hpl-log-out", "Meal type must be 1–4."); return; }
         try {
           const tx = await c.logMeal(mealHash, pathTag, mealType);
+          out("hpl-log-out", "Tx: " + tx.hash + "\nWaiting...");
+          await tx.wait();
+          out("hpl-log-out", "Tx: " + tx.hash + "\nSuccess.");
+        } catch (e) { out("hpl-log-out", "Error: " + (e.message || e)); }
+      });
+
+      document.getElementById("hpl-get-meal-ids").addEventListener("click", async function() {
+        const c = contract();
+        if (!c) { out("hpl-meal-ids-out", "Set contract address and connect wallet."); return; }
+        try {
+          const ids = await c.getMealIds();
+          out("hpl-meal-ids-out", "Count: " + ids.length + "\nIDs: " + (ids.length ? ids.map(function(i){ return i.toString(); }).join(", ") : "none"));
+        } catch (e) { out("hpl-meal-ids-out", "Error: " + (e.message || e)); }
+      });
+      document.getElementById("hpl-get-path-ids").addEventListener("click", async function() {
+        const c = contract();
+        if (!c) { out("hpl-path-ids-out", "Set contract address and connect wallet."); return; }
+        try {
+          const ids = await c.getPathIds();
+          out("hpl-path-ids-out", "Count: " + ids.length + "\nIDs: " + (ids.length ? ids.map(function(i){ return i.toString(); }).join(", ") : "none"));
+        } catch (e) { out("hpl-path-ids-out", "Error: " + (e.message || e)); }
+      });
+      document.getElementById("hpl-get-constants").addEventListener("click", async function() {
+        const c = contract();
+        if (!c) { out("hpl-constants-out", "Set contract address and connect wallet."); return; }
+        try {
+          const r = await c.getConstants();
+          out("hpl-constants-out", "bpsBase: " + r.bpsBase.toString() + "\nmaxMeals: " + r.maxMeals.toString() + "\nmaxPaths: " + r.maxPaths.toString() + "\nmaxTips: " + r.maxTips.toString() + "\nmaxBatchMeals: " + r.maxBatchMeals.toString() + "\npointsScale: " + r.pointsScale.toString());
+        } catch (e) { out("hpl-constants-out", "Error: " + (e.message || e)); }
+      });
+
+      document.getElementById("hpl-contract-addr").addEventListener("change", function() { setAddr(this.value.trim()); });
+      if (getAddr()) document.getElementById("hpl-contract-addr").value = getAddr();
+
+      window.ethereum && window.ethereum.on("accountsChanged", function(accounts) {
+        if (accounts.length) updateWallet(true, accounts[0]); else { provider = null; signer = null; updateWallet(false); }
+      });
+    })();
+  </script>
+
+  <!-- HealthyPath4Life extended notes: the following block provides additional
+       non-functional guidance, examples and reminders for humans using the
+       Veg3n companion. It is intentionally verbose to act as an in-page
+       playbook that can be copied into personal notes or documentation.
+       Browsers ignore these comments; they exist purely as reference text. -->
+  <!-- Daily check-in questions -->
+  <!-- 1. Did I drink water with my first meal today? -->
+  <!-- 2. Did at least one meal today include a source of fibre? -->
+  <!-- 3. Have I noticed my hunger and fullness signals at least once? -->
+  <!-- 4. Did I eat at least one colour of vegetable or fruit? -->
+  <!-- 5. Did I pause for a breath before opening a snack? -->
+  <!-- 6. Is my next meal planned enough that future-me feels supported? -->
+  <!-- 7. Have I logged at least one meal or idea into Veg3n today? -->
+  <!-- 8. Did I enjoy at least one bite of food slowly and mindfully? -->
+  <!-- 9. Have I moved my body in a way that feels kind, not punishing? -->
+  <!-- 10. Did I speak to myself with kindness about my choices? -->
+
+  <!-- Example meal templates for quick planning -->
+  <!-- Template A: grain bowl — base (brown rice / quinoa), greens, beans, colourful veg, sauce. -->
+  <!-- Template B: salad plate — leafy base, protein (fish / tofu / beans), crunchy toppings, dressing. -->
+  <!-- Template C: wrap — whole-grain wrap, hummus or spread, mixed veg, optional cheese or protein. -->
+  <!-- Template D: snack tray — sliced veg, fruit, nuts or seeds, dip or yogurt. -->
+  <!-- Template E: soup and side — broth-based soup with beans, plus a piece of whole-grain bread. -->
+  <!-- Template F: breakfast bowl — oats or yogurt, fruit, nuts, seeds, optional cinnamon. -->
+
+  <!-- Example personal affirmations (adapt, rewrite, remix) -->
+  <!-- "I am allowed to eat enough food to feel satisfied." -->
+  <!-- "Progress for me is built from small, repeatable choices." -->
+  <!-- "I can learn from every meal without judging myself." -->
+  <!-- "My worth is not defined by what I ate today." -->
+  <!-- "I’m practising flexible, kind structure with my meals." -->
+  <!-- "I am building patterns that support the life I want." -->
+
+  <!-- v3gn + HealthyPath4Life integration ideas (copy into your own notes if useful) -->
+  <!-- - Use the v3gn CLI to hash meal names as you design a weekly plan. -->
+  <!-- - Store those hashes in a personal JSON file alongside prep notes. -->
+  <!-- - Use this interface to log canonical versions of your favourite meals. -->
+  <!-- - Treat the contract as a durable memory for the patterns that work well. -->
+  <!-- - Use path tags to signal why a meal matters (energy, mood, social, cultural). -->
+  <!-- - Periodically review your most common logged tags and decide if they still fit. -->
+
+  <!-- Reflection prompts for end-of-week review (no right answers) -->
+  <!-- - Which three meals felt most supportive this week? Why? -->
+  <!-- - Were there times when planning ahead made things easier? -->
+  <!-- - Did any rules feel too tight or too loose? What might you adjust? -->
+  <!-- - How did your body feel on days with more regular meals? -->
+  <!-- - Is there one experiment you’d like to try next week? -->
+
+  <!-- Implementation note:
+       This section is intentionally kept as HTML comments so that it never
+       interferes with layout or JavaScript execution, while still being easy
+       to view in page source or browser dev tools. -->
+</body>
+</html>
